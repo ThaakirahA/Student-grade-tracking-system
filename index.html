@@ -1,608 +1,1200 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Grade Vault — Student Tracker</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#0c0c10;--bg2:#13131a;--bg3:#1a1a24;--bg4:#22222e;
-  --surface:#1e1e2a;--surface2:#252535;
-  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
-  --text:#f0eff8;--text2:#9896b0;--text3:#5c5a72;
-  --accent:#7c6ff7;--accent2:#a78bfa;
-  --teal:#2dd4bf;--coral:#f87171;--amber:#fbbf24;
-  --green:#4ade80;--pink:#f472b6;--blue:#60a5fa;
-  --r:12px;--r-lg:18px;--r-xl:24px;
-  --shadow:0 4px 24px rgba(0,0,0,0.4);
-}
-html{scroll-behavior:smooth}
-body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:15px;line-height:1.55;overflow-x:hidden}
-body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 50% at 10% 0%,rgba(124,111,247,0.08) 0%,transparent 70%),radial-gradient(ellipse 40% 40% at 90% 80%,rgba(45,212,191,0.06) 0%,transparent 70%),radial-gradient(ellipse 50% 60% at 50% 50%,rgba(248,113,113,0.03) 0%,transparent 80%);pointer-events:none;z-index:0}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grade Vault — Student Tracker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-.shell{max-width:860px;margin:0 auto;padding:0 20px 100px;position:relative;z-index:1}
+    :root {
+      --bg:#0c0c10; --bg2:#13131a; --bg3:#1a1a24; --bg4:#22222e;
+      --surface:#1e1e2a; --surface2:#252535;
+      --border:rgba(255,255,255,0.07); --border2:rgba(255,255,255,0.13);
+      --text:#f0eff8; --text2:#9896b0; --text3:#5c5a72;
+      --accent:#7c6ff7; --accent2:#a78bfa;
+      --teal:#2dd4bf; --coral:#f87171; --amber:#fbbf24;
+      --green:#4ade80; --pink:#f472b6; --blue:#60a5fa;
+      --r:12px; --r-lg:18px; --r-xl:24px;
+      --shadow:0 4px 24px rgba(0,0,0,0.4);
+    }
 
-/* Header */
-.header{padding:36px 0 28px;display:flex;align-items:flex-end;justify-content:space-between;gap:16px}
-.logo{display:flex;align-items:center;gap:12px}
-.logo-icon{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--teal));display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 4px 20px rgba(124,111,247,0.45);flex-shrink:0}
-.logo-text h1{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;letter-spacing:-0.4px;color:var(--text)}
-.logo-text p{font-size:12px;color:var(--text3);margin-top:1px}
-.header-date{font-size:12px;color:var(--text3);text-align:right;line-height:1.7}
+    html { scroll-behavior: smooth; }
+    body {
+      font-family:'DM Sans', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      font-size: 15px;
+      line-height: 1.55;
+      overflow-x: hidden;
+    }
 
-/* Nav */
-.nav-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);padding:5px;display:flex;gap:3px;margin-bottom:28px;box-shadow:var(--shadow);overflow-x:auto}
-.nav-btn{flex:1;min-width:80px;padding:9px 16px;border:none;background:transparent;border-radius:calc(var(--r-xl) - 4px);font-size:13px;font-weight:500;color:var(--text2);cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;white-space:nowrap;position:relative;overflow:hidden}
-.nav-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--accent),var(--accent2));opacity:0;transition:opacity 0.2s;border-radius:inherit}
-.nav-btn.active{color:#fff}
-.nav-btn.active::before{opacity:1}
-.nav-btn span{position:relative;z-index:1}
-.nav-btn:hover:not(.active){background:var(--bg4);color:var(--text)}
+    body::before {
+      content:'';
+      position:fixed;
+      inset:0;
+      background:
+        radial-gradient(ellipse 60% 50% at 10% 0%, rgba(124,111,247,0.08) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 90% 80%, rgba(45,212,191,0.06) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 60% at 50% 50%, rgba(248,113,113,0.03) 0%, transparent 80%);
+      pointer-events:none;
+      z-index:0;
+    }
 
-/* Cards */
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px 22px;margin-bottom:14px;box-shadow:var(--shadow);transition:border-color 0.2s}
-.card:hover{border-color:var(--border2)}
-.card-title{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;margin-bottom:16px;color:var(--text);display:flex;align-items:center;gap:8px}
-.badge-count{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:400;background:var(--bg4);color:var(--text2);padding:2px 8px;border-radius:99px;border:1px solid var(--border2)}
+    .shell { max-width: 860px; margin: 0 auto; padding: 0 20px 100px; position: relative; z-index: 1; }
 
-/* Section titles */
-.section-title{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);display:flex;justify-content:space-between;align-items:center;margin:24px 0 10px}
-.section-title .hint{font-family:'DM Sans',sans-serif;font-weight:400;letter-spacing:0;text-transform:none;font-size:11px}
+    .header {
+      padding: 36px 0 28px;
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:16px;
+    }
 
-/* Metrics */
-.metric-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px}
-.metric{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;position:relative;overflow:hidden;transition:transform 0.2s,box-shadow 0.2s}
-.metric:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,0.4)}
-.metric::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--m-color,var(--accent));border-radius:2px 2px 0 0}
-.metric-label{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px;font-weight:500}
-.metric-value{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;line-height:1;color:var(--m-color,var(--accent))}
-.metric-sub{font-size:11px;color:var(--text3);margin-top:4px}
+    .logo { display:flex; align-items:center; gap:12px; }
+    .logo-icon {
+      width:44px; height:44px; border-radius:12px;
+      background:linear-gradient(135deg,var(--accent),var(--teal));
+      display:flex; align-items:center; justify-content:center;
+      font-size:22px; box-shadow:0 4px 20px rgba(124,111,247,0.45); flex-shrink:0;
+    }
+    .logo-text h1 { font-family:'Syne',sans-serif; font-size:22px; font-weight:800; letter-spacing:-0.4px; color:var(--text); }
+    .logo-text p { font-size:12px; color:var(--text3); margin-top:1px; }
+    .header-date { font-size:12px; color:var(--text3); text-align:right; line-height:1.7; }
 
-/* Semester cards */
-.sem-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px}
-@media(max-width:480px){.sem-grid{grid-template-columns:1fr}}
-.sem-card{border-radius:var(--r-lg);padding:22px 24px;border:1px solid var(--border);position:relative;overflow:hidden;transition:transform 0.2s,box-shadow 0.2s}
-.sem-card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,0.5)}
-.sem-card.s1{background:linear-gradient(135deg,rgba(124,111,247,0.18),rgba(124,111,247,0.06));border-color:rgba(124,111,247,0.3)}
-.sem-card.s2{background:linear-gradient(135deg,rgba(45,212,191,0.14),rgba(45,212,191,0.05));border-color:rgba(45,212,191,0.25)}
-.sem-card-bg{position:absolute;right:-10px;top:-10px;font-family:'Syne',sans-serif;font-size:90px;font-weight:900;opacity:0.05;line-height:1;pointer-events:none;color:var(--text)}
-.sem-label{font-size:12px;font-weight:500;margin-bottom:12px;display:flex;align-items:center;gap:8px}
-.sem-value{font-family:'Syne',sans-serif;font-size:38px;font-weight:800;line-height:1;margin-bottom:4px}
-.sem-sub{font-size:12px;color:var(--text3)}
+    .nav-wrap {
+      background: var(--surface);
+      border:1px solid var(--border);
+      border-radius: var(--r-xl);
+      padding:5px;
+      display:flex;
+      gap:3px;
+      margin-bottom:28px;
+      box-shadow:var(--shadow);
+      overflow-x:auto;
+    }
 
-/* Subject cards (overview) */
-.subj-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:18px 22px;margin-bottom:12px;transition:border-color 0.2s,transform 0.2s;position:relative;overflow:hidden}
-.subj-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--subj-color,var(--accent));border-radius:3px 0 0 3px}
-.subj-card:hover{border-color:var(--border2);transform:translateX(3px)}
-.subj-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
-.subj-name{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:10px}
-.term-pills{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
-.prog-bar{height:4px;border-radius:2px;background:var(--bg4);overflow:hidden;margin-top:14px}
-.prog-fill{height:100%;border-radius:2px;transition:width 0.6s cubic-bezier(.4,0,.2,1)}
+    .nav-btn {
+      flex:1; min-width:80px; padding:9px 16px; border:none; background:transparent;
+      border-radius:calc(var(--r-xl) - 4px); font-size:13px; font-weight:500;
+      color:var(--text2); cursor:pointer; transition:all 0.2s;
+      font-family:'DM Sans',sans-serif; white-space:nowrap; position:relative; overflow:hidden;
+    }
 
-/* Pill */
-.pill{display:inline-flex;align-items:center;padding:3px 10px;border-radius:99px;font-size:11px;font-weight:600;border:1px solid transparent}
-.pill-A{background:rgba(74,222,128,0.12);color:#4ade80;border-color:rgba(74,222,128,0.2)}
-.pill-B{background:rgba(96,165,250,0.12);color:#60a5fa;border-color:rgba(96,165,250,0.2)}
-.pill-C{background:rgba(167,139,250,0.12);color:#a78bfa;border-color:rgba(167,139,250,0.2)}
-.pill-D{background:rgba(251,191,36,0.12);color:#fbbf24;border-color:rgba(251,191,36,0.2)}
-.pill-F{background:rgba(248,113,113,0.12);color:#f87171;border-color:rgba(248,113,113,0.2)}
-.pill-nil{background:rgba(255,255,255,0.04);color:var(--text3);border-color:var(--border)}
-.pill-sem1{background:rgba(124,111,247,0.12);color:var(--accent2);border-color:rgba(124,111,247,0.2)}
-.pill-sem2{background:rgba(45,212,191,0.12);color:var(--teal);border-color:rgba(45,212,191,0.2)}
-.pill-type{background:var(--bg4);color:var(--text2);border-color:var(--border)}
+    .nav-btn::before {
+      content:''; position:absolute; inset:0;
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      opacity:0; transition:opacity 0.2s; border-radius:inherit;
+    }
 
-/* Subject tabs */
-.subject-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
-.subject-tab{padding:6px 15px;border-radius:99px;border:1px solid var(--border2);font-size:13px;font-weight:500;cursor:pointer;background:transparent;color:var(--text2);transition:all 0.15s;font-family:'DM Sans',sans-serif}
-.subject-tab:hover:not(.active){background:var(--bg4);color:var(--text)}
+    .nav-btn.active { color:#fff; }
+    .nav-btn.active::before { opacity:1; }
+    .nav-btn span { position:relative; z-index:1; }
+    .nav-btn:hover:not(.active) { background:var(--bg4); color:var(--text); }
 
-/* Term cards */
-.term-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:22px}
-.term-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;position:relative;overflow:hidden;transition:transform 0.2s}
-.term-card:hover{transform:translateY(-2px)}
-.tc-glow{position:absolute;top:-30px;right:-30px;width:80px;height:80px;border-radius:50%;opacity:0.12;pointer-events:none}
-.tc-t1 .tc-glow{background:var(--accent2)}
-.tc-t2 .tc-glow{background:var(--teal)}
-.tc-t3 .tc-glow{background:var(--amber)}
-.tc-t4 .tc-glow{background:var(--pink)}
-.tc-label{font-size:10px;color:var(--text3);margin-bottom:4px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em}
-.tc-value{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;line-height:1}
-.tc-sub{font-size:11px;color:var(--text3);margin-top:3px}
-.tc-t1 .tc-value{color:var(--accent2)}
-.tc-t2 .tc-value{color:var(--teal)}
-.tc-t3 .tc-value{color:var(--amber)}
-.tc-t4 .tc-value{color:var(--pink)}
-.tc-nil .tc-value{color:var(--text3)}
+    .card {
+      background:var(--surface); border:1px solid var(--border); border-radius:var(--r-lg);
+      padding:20px 22px; margin-bottom:14px; box-shadow:var(--shadow);
+      transition:border-color 0.2s;
+    }
+    .card:hover { border-color:var(--border2); }
 
-/* Table */
-.assign-header,.assign-row{display:grid;grid-template-columns:2fr 1.1fr 0.65fr 0.65fr 0.65fr auto;gap:8px;align-items:center;padding:9px 0;border-bottom:1px solid var(--border)}
-.assign-row:last-child{border-bottom:none}
-.assign-header{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;padding-bottom:8px}
-.assign-row{font-size:13px}
-@media(max-width:600px){.assign-header,.assign-row{grid-template-columns:2fr 0.9fr 0.55fr 0.55fr 0.55fr auto;gap:5px}}
-.inline-input{width:62px;padding:5px 7px;border:1px solid var(--border2);border-radius:7px;font-size:12px;background:var(--bg4);color:var(--text);font-family:'DM Sans',sans-serif;transition:border-color 0.15s}
-.inline-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,111,247,0.15)}
-.weighted-total{display:flex;justify-content:flex-end;align-items:center;gap:8px;padding:10px 0 2px;font-size:13px;font-weight:600;border-top:1px solid var(--border);margin-top:4px}
+    .card-title {
+      font-family:'Syne',sans-serif; font-size:14px; font-weight:700;
+      margin-bottom:16px; color:var(--text); display:flex; align-items:center; gap:8px;
+    }
 
-/* Forms */
-.form-group{margin-bottom:14px}
-.form-label{display:block;font-size:12px;color:var(--text2);font-weight:500;margin-bottom:6px;letter-spacing:0.02em}
-.form-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.form-grid-3{display:grid;grid-template-columns:2fr 1fr 1fr;gap:14px}
-@media(max-width:520px){.form-grid-2,.form-grid-3{grid-template-columns:1fr}}
-input[type=text],input[type=number],select,textarea{width:100%;padding:10px 13px;border:1px solid var(--border2);border-radius:var(--r);font-size:13px;background:var(--bg3);color:var(--text);font-family:'DM Sans',sans-serif;transition:border-color 0.15s,box-shadow 0.15s;-webkit-appearance:none;appearance:none}
-input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,111,247,0.15)}
-input::placeholder{color:var(--text3)}
-input[type=color]{width:100%;height:42px;padding:3px 5px;border:1px solid var(--border2);border-radius:var(--r);background:var(--bg3);cursor:pointer}
-select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%235c5a72' d='M6 8L0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
+    .badge-count {
+      font-family:'DM Sans',sans-serif; font-size:11px; font-weight:400;
+      background:var(--bg4); color:var(--text2); padding:2px 8px; border-radius:99px;
+      border:1px solid var(--border2);
+    }
 
-/* Buttons */
-.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 18px;border-radius:var(--r);border:1px solid var(--border2);font-size:13px;font-weight:500;cursor:pointer;background:transparent;color:var(--text);font-family:'DM Sans',sans-serif;transition:all 0.15s}
-.btn:hover{background:var(--bg4);border-color:var(--border2)}
-.btn:active{transform:scale(0.97)}
-.btn-primary{background:linear-gradient(135deg,var(--accent),#9d8ff8);color:#fff;border:none;box-shadow:0 4px 18px rgba(124,111,247,0.38)}
-.btn-primary:hover{box-shadow:0 6px 28px rgba(124,111,247,0.55);background:linear-gradient(135deg,#8a7ef9,var(--accent2))}
-.btn-sm{padding:5px 11px;font-size:12px}
-.btn-danger{color:var(--coral);border-color:rgba(248,113,113,0.2)}
-.btn-danger:hover{background:rgba(248,113,113,0.08)}
+    .section-title {
+      font-family:'Syne',sans-serif; font-size:11px; font-weight:700; letter-spacing:0.1em;
+      text-transform:uppercase; color:var(--text3); display:flex; justify-content:space-between;
+      align-items:center; margin:24px 0 10px;
+    }
+    .section-title .hint {
+      font-family:'DM Sans',sans-serif; font-weight:400; letter-spacing:0; text-transform:none;
+      font-size:11px;
+    }
 
-/* Subjects list */
-.subj-list-row{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid var(--border);gap:12px}
-.subj-list-row:last-child{border-bottom:none}
-.subj-dot-wrap{display:flex;align-items:center;gap:10px}
-.subj-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+    .metric-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin-bottom:20px; }
+    .metric {
+      background:var(--bg3); border:1px solid var(--border); border-radius:var(--r);
+      padding:16px 18px; position:relative; overflow:hidden; transition:transform 0.2s, box-shadow 0.2s;
+    }
+    .metric:hover { transform:translateY(-2px); box-shadow:0 8px 32px rgba(0,0,0,0.4); }
+    .metric::after {
+      content:''; position:absolute; top:0; left:0; right:0; height:2px;
+      background:var(--m-color,var(--accent)); border-radius:2px 2px 0 0;
+    }
+    .metric-label { font-size:11px; color:var(--text3); text-transform:uppercase; letter-spacing:0.07em; margin-bottom:6px; font-weight:500; }
+    .metric-value { font-family:'Syne',sans-serif; font-size:28px; font-weight:800; line-height:1; color:var(--m-color,var(--accent)); }
+    .metric-sub { font-size:11px; color:var(--text3); margin-top:4px; }
 
-/* Notice */
-.notice{background:rgba(124,111,247,0.08);border:1px solid rgba(124,111,247,0.2);border-radius:var(--r);padding:11px 15px;font-size:12px;color:var(--text2);margin-bottom:16px;display:flex;gap:10px;align-items:flex-start}
-.notice-icon{font-size:14px;flex-shrink:0;margin-top:1px}
-.weight-warn{font-size:11px;color:var(--coral);margin-top:5px}
-.weight-ok{font-size:11px;color:var(--text3);margin-top:5px}
+    .sem-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:24px; }
+    @media (max-width:480px) { .sem-grid { grid-template-columns:1fr; } }
 
-/* Empty */
-.empty{text-align:center;padding:40px 20px;color:var(--text3);font-size:13px}
-.empty-icon{font-size:32px;margin-bottom:10px;opacity:0.5}
+    .sem-card {
+      border-radius:var(--r-lg); padding:22px 24px; border:1px solid var(--border);
+      position:relative; overflow:hidden; transition:transform 0.2s, box-shadow 0.2s;
+    }
+    .sem-card:hover { transform:translateY(-3px); box-shadow:0 12px 40px rgba(0,0,0,0.5); }
+    .sem-card.s1 { background:linear-gradient(135deg,rgba(124,111,247,0.18),rgba(124,111,247,0.06)); border-color:rgba(124,111,247,0.3); }
+    .sem-card.s2 { background:linear-gradient(135deg,rgba(45,212,191,0.14),rgba(45,212,191,0.05)); border-color:rgba(45,212,191,0.25); }
+    .sem-card-bg {
+      position:absolute; right:-10px; top:-10px; font-family:'Syne',sans-serif;
+      font-size:90px; font-weight:900; opacity:0.05; line-height:1; pointer-events:none;
+      color:var(--text);
+    }
+    .sem-label { font-size:12px; font-weight:500; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+    .sem-value { font-family:'Syne',sans-serif; font-size:38px; font-weight:800; line-height:1; margin-bottom:4px; }
+    .sem-sub { font-size:12px; color:var(--text3); }
 
-/* Ring */
-.ring-wrap{position:relative;flex-shrink:0}
-.ring-svg{transform:rotate(-90deg)}
-.ring-text{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:11px;font-weight:800}
+    .subj-card {
+      background:var(--surface); border:1px solid var(--border); border-radius:var(--r-lg);
+      padding:18px 22px; margin-bottom:12px; transition:border-color 0.2s, transform 0.2s;
+      position:relative; overflow:hidden;
+    }
+    .subj-card::before {
+      content:''; position:absolute; left:0; top:0; bottom:0; width:3px;
+      background:var(--subj-color,var(--accent)); border-radius:3px 0 0 3px;
+    }
+    .subj-card:hover { border-color:var(--border2); transform:translateX(3px); }
+    .subj-top { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; }
+    .subj-name { font-family:'Syne',sans-serif; font-size:16px; font-weight:700; margin-bottom:10px; }
+    .term-pills { display:flex; gap:6px; flex-wrap:wrap; margin-top:4px; }
+    .prog-bar { height:4px; border-radius:2px; background:var(--bg4); overflow:hidden; margin-top:14px; }
+    .prog-fill { height:100%; border-radius:2px; transition:width 0.6s cubic-bezier(.4,0,.2,1); }
 
-/* Animations */
-@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-.fade-up{animation:fadeUp 0.35s ease both}
-.d1{animation-delay:.05s}.d2{animation-delay:.1s}.d3{animation-delay:.15s}.d4{animation-delay:.2s}
+    .pill {
+      display:inline-flex; align-items:center; padding:3px 10px; border-radius:99px;
+      font-size:11px; font-weight:600; border:1px solid transparent;
+    }
+    .pill-A { background:rgba(74,222,128,0.12); color:#4ade80; border-color:rgba(74,222,128,0.2); }
+    .pill-B { background:rgba(96,165,250,0.12); color:#60a5fa; border-color:rgba(96,165,250,0.2); }
+    .pill-C { background:rgba(167,139,250,0.12); color:#a78bfa; border-color:rgba(167,139,250,0.2); }
+    .pill-D { background:rgba(251,191,36,0.12); color:#fbbf24; border-color:rgba(251,191,36,0.2); }
+    .pill-F { background:rgba(248,113,113,0.12); color:#f87171; border-color:rgba(248,113,113,0.2); }
+    .pill-nil { background:rgba(255,255,255,0.04); color:var(--text3); border-color:var(--border); }
+    .pill-sem1 { background:rgba(124,111,247,0.12); color:var(--accent2); border-color:rgba(124,111,247,0.2); }
+    .pill-sem2 { background:rgba(45,212,191,0.12); color:var(--teal); border-color:rgba(45,212,191,0.2); }
+    .pill-type { background:var(--bg4); color:var(--text2); border-color:var(--border); }
 
-/* Grade legend */
-.legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px}
-.legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2)}
+    .subject-tabs { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:20px; }
+    .subject-tab {
+      padding:6px 15px; border-radius:99px; border:1px solid var(--border2); font-size:13px;
+      font-weight:500; cursor:pointer; background:transparent; color:var(--text2);
+      transition:all 0.15s; font-family:'DM Sans',sans-serif;
+    }
+    .subject-tab:hover:not(.active) { background:var(--bg4); color:var(--text); }
+    .subject-tab.active { color:#fff; }
 
-/* Scrollbar */
-::-webkit-scrollbar{width:5px;height:5px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:3px}
+    .term-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; margin-bottom:22px; }
+    .term-card {
+      background:var(--bg3); border:1px solid var(--border); border-radius:var(--r);
+      padding:14px 16px; position:relative; overflow:hidden; transition:transform 0.2s;
+    }
+    .term-card:hover { transform:translateY(-2px); }
+    .tc-glow { position:absolute; top:-30px; right:-30px; width:80px; height:80px; border-radius:50%; opacity:0.12; pointer-events:none; }
+    .tc-t1 .tc-glow { background:var(--accent2); }
+    .tc-t2 .tc-glow { background:var(--teal); }
+    .tc-t3 .tc-glow { background:var(--amber); }
+    .tc-t4 .tc-glow { background:var(--pink); }
+    .tc-label { font-size:10px; color:var(--text3); margin-bottom:4px; font-weight:600; text-transform:uppercase; letter-spacing:0.07em; }
+    .tc-value { font-family:'Syne',sans-serif; font-size:24px; font-weight:800; line-height:1; }
+    .tc-sub { font-size:11px; color:var(--text3); margin-top:3px; }
+    .tc-t1 .tc-value { color:var(--accent2); }
+    .tc-t2 .tc-value { color:var(--teal); }
+    .tc-t3 .tc-value { color:var(--amber); }
+    .tc-t4 .tc-value { color:var(--pink); }
+    .tc-nil .tc-value { color:var(--text3); }
 
-@media(max-width:500px){.header{flex-direction:column;align-items:flex-start;padding:24px 0 20px}.shell{padding:0 14px 80px}}
-</style>
+    .assign-header, .assign-row {
+      display:grid; grid-template-columns:2fr 1.1fr 0.65fr 0.65fr 0.65fr auto;
+      gap:8px; align-items:center; padding:9px 0; border-bottom:1px solid var(--border);
+    }
+    .assign-row:last-child { border-bottom:none; }
+    .assign-header {
+      font-size:10px; font-weight:700; color:var(--text3); text-transform:uppercase;
+      letter-spacing:0.08em; padding-bottom:8px;
+    }
+    .assign-row { font-size:13px; }
+    @media (max-width:600px) {
+      .assign-header, .assign-row { grid-template-columns:2fr 0.9fr 0.55fr 0.55fr 0.55fr auto; gap:5px; }
+    }
+
+    .inline-input {
+      width:62px; padding:5px 7px; border:1px solid var(--border2); border-radius:7px;
+      font-size:12px; background:var(--bg4); color:var(--text); font-family:'DM Sans',sans-serif;
+      transition:border-color 0.15s;
+    }
+    .inline-input:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(124,111,247,0.15); }
+
+    .weighted-total {
+      display:flex; justify-content:flex-end; align-items:center; gap:8px;
+      padding:10px 0 2px; font-size:13px; font-weight:600;
+      border-top:1px solid var(--border); margin-top:4px;
+    }
+
+    .form-group { margin-bottom:14px; }
+    .form-label { display:block; font-size:12px; color:var(--text2); font-weight:500; margin-bottom:6px; letter-spacing:0.02em; }
+    .form-grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    .form-grid-3 { display:grid; grid-template-columns:2fr 1fr 1fr; gap:14px; }
+    @media (max-width:520px) { .form-grid-2, .form-grid-3 { grid-template-columns:1fr; } }
+
+    input[type=text], input[type=number], select, textarea {
+      width:100%; padding:10px 13px; border:1px solid var(--border2); border-radius:var(--r);
+      font-size:13px; background:var(--bg3); color:var(--text); font-family:'DM Sans',sans-serif;
+      transition:border-color 0.15s, box-shadow 0.15s; -webkit-appearance:none; appearance:none;
+    }
+    input:focus, select:focus, textarea:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(124,111,247,0.15); }
+    input::placeholder { color:var(--text3); }
+    input[type=color] {
+      width:100%; height:42px; padding:3px 5px; border:1px solid var(--border2);
+      border-radius:var(--r); background:var(--bg3); cursor:pointer;
+    }
+    select {
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%235c5a72' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+      background-repeat:no-repeat; background-position:right 12px center; padding-right:32px;
+    }
+
+    .btn {
+      display:inline-flex; align-items:center; gap:7px; padding:10px 18px; border-radius:var(--r);
+      border:1px solid var(--border2); font-size:13px; font-weight:500; cursor:pointer;
+      background:transparent; color:var(--text); font-family:'DM Sans',sans-serif; transition:all 0.15s;
+    }
+    .btn:hover { background:var(--bg4); border-color:var(--border2); }
+    .btn:active { transform:scale(0.97); }
+    .btn-primary {
+      background:linear-gradient(135deg,var(--accent),#9d8ff8);
+      color:#fff; border:none; box-shadow:0 4px 18px rgba(124,111,247,0.38);
+    }
+    .btn-primary:hover {
+      box-shadow:0 6px 28px rgba(124,111,247,0.55);
+      background:linear-gradient(135deg,#8a7ef9,var(--accent2));
+    }
+    .btn-sm { padding:5px 11px; font-size:12px; }
+    .btn-danger { color:var(--coral); border-color:rgba(248,113,113,0.2); }
+    .btn-danger:hover { background:rgba(248,113,113,0.08); }
+
+    .subj-list-row {
+      display:flex; justify-content:space-between; align-items:center; padding:13px 0;
+      border-bottom:1px solid var(--border); gap:12px;
+    }
+    .subj-list-row:last-child { border-bottom:none; }
+    .subj-dot-wrap { display:flex; align-items:center; gap:10px; }
+    .subj-dot { width:12px; height:12px; border-radius:50%; flex-shrink:0; }
+
+    .notice {
+      background:rgba(124,111,247,0.08); border:1px solid rgba(124,111,247,0.2);
+      border-radius:var(--r); padding:11px 15px; font-size:12px; color:var(--text2);
+      margin-bottom:16px; display:flex; gap:10px; align-items:flex-start;
+    }
+    .notice-icon { font-size:14px; flex-shrink:0; margin-top:1px; }
+    .weight-warn { font-size:11px; color:var(--coral); margin-top:5px; }
+    .weight-ok { font-size:11px; color:var(--text3); margin-top:5px; }
+
+    .empty { text-align:center; padding:40px 20px; color:var(--text3); font-size:13px; }
+    .empty-icon { font-size:32px; margin-bottom:10px; opacity:0.5; }
+
+    .ring-wrap { position:relative; flex-shrink:0; }
+    .ring-svg { transform:rotate(-90deg); }
+    .ring-text {
+      position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+      font-family:'Syne',sans-serif; font-size:11px; font-weight:800;
+    }
+
+    @keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+    .fade-up { animation:fadeUp 0.35s ease both; }
+    .d1 { animation-delay:.05s; } .d2 { animation-delay:.1s; } .d3 { animation-delay:.15s; } .d4 { animation-delay:.2s; }
+
+    .legend { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:8px; }
+    .legend-item { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--text2); }
+
+    ::-webkit-scrollbar { width:5px; height:5px; }
+    ::-webkit-scrollbar-track { background:transparent; }
+    ::-webkit-scrollbar-thumb { background:var(--bg4); border-radius:3px; }
+
+    @media (max-width:500px) {
+      .header { flex-direction:column; align-items:flex-start; padding:24px 0 20px; }
+      .shell { padding:0 14px 80px; }
+    }
+  </style>
 </head>
 <body>
-<div class="shell">
-  <header class="header">
-    <div class="logo">
-      <div class="logo-icon">🎓</div>
-      <div class="logo-text">
-        <h1>Grade Vault</h1>
-        <p>Your academic progress tracker</p>
-      </div>
-    </div>
-    <div class="header-date" id="hdate"></div>
-  </header>
-  <nav class="nav-wrap">
-    <button class="nav-btn" id="nb-overview" onclick="sv('overview')"><span>📊 Overview</span></button>
-    <button class="nav-btn" id="nb-subjects" onclick="sv('subjects')"><span>📚 Subjects</span></button>
-    <button class="nav-btn" id="nb-grades"   onclick="sv('grades')"><span>🏆 My Grades</span></button>
-    <button class="nav-btn" id="nb-add_work" onclick="sv('add_work')"><span>✏️ Add Work</span></button>
-  </nav>
-  <main id="root"></main>
-</div>
-
-<script>
-/* ─── Storage ─── */
-const SK='gv3';
-function ld(){try{const r=localStorage.getItem(SK);if(r)return JSON.parse(r)}catch(e){}return null}
-function sv2(){try{localStorage.setItem(SK,JSON.stringify({subjects:S.subjects,assignments:S.assignments,nid:S.nid}))}catch(e){}}
-
-/* ─── State ─── */
-const DEF={
-  subjects:[{id:1,name:'Mathematics',color:'#7c6ff7'},{id:2,name:'Physical Sciences',color:'#2dd4bf'}],
-  assignments:[
-    {id:1,subjectId:1,name:'Assignment 1',type:'assignment',term:1,weight:20,mark:75,outOf:100},
-    {id:2,subjectId:1,name:'Test 1',type:'test',term:1,weight:30,mark:82,outOf:100},
-    {id:3,subjectId:1,name:'Class Test 1',type:'class_test',term:1,weight:15,mark:60,outOf:100},
-    {id:4,subjectId:1,name:'Exam',type:'exam',term:1,weight:35,mark:78,outOf:100},
-    {id:5,subjectId:2,name:'Prac 1',type:'practical',term:1,weight:25,mark:90,outOf:100},
-    {id:6,subjectId:2,name:'Test 1',type:'test',term:2,weight:40,mark:68,outOf:100},
-  ],
-  nid:20,
-};
-const saved=ld();
-const S={
-  view:'overview',aSubId:null,
-  subjects:saved?.subjects||DEF.subjects,
-  assignments:saved?.assignments||DEF.assignments,
-  nid:saved?.nid||DEF.nid,
-  na:{name:'',type:'assignment',term:1,weight:'',mark:'',outOf:100,subjectId:null},
-  addName:'',addColor:'#7c6ff7',
-};
-S.aSubId=S.subjects[0]?.id||null;
-S.na.subjectId=S.subjects[0]?.id||null;
-
-/* ─── Constants ─── */
-const TYPES={assignment:'Assignment',test:'Test',class_test:'Class Test',exam:'Exam',project:'Project',practical:'Practical'};
-const GC={A:'#4ade80',B:'#60a5fa',C:'#a78bfa',D:'#fbbf24',F:'#f87171'};
-
-/* ─── Calc ─── */
-function calcPct(subId,term){
-  const it=S.assignments.filter(a=>a.subjectId===subId&&a.term===term&&a.mark!==''&&a.mark!=null);
-  if(!it.length)return null;
-  const tw=it.reduce((s,a)=>s+Number(a.weight),0);
-  if(!tw)return null;
-  return Math.round(it.reduce((s,a)=>s+(Number(a.mark)/Number(a.outOf))*Number(a.weight),0)/tw*1000)/10;
-}
-function semCalc(subId,sem){
-  const ps=[1,2,3,4].slice(sem===1?0:2,sem===1?2:4).map(t=>calcPct(subId,t)).filter(p=>p!==null);
-  return ps.length?Math.round(ps.reduce((a,b)=>a+b,0)/ps.length*10)/10:null;
-}
-function twCalc(subId,term){return S.assignments.filter(a=>a.subjectId===subId&&a.term===term).reduce((s,a)=>s+Number(a.weight||0),0)}
-function gi(p){
-  if(p===null||p===undefined)return{l:'—',c:'var(--text3)',pc:'pill-nil'};
-  if(p>=80)return{l:'A',c:GC.A,pc:'pill-A'};
-  if(p>=70)return{l:'B',c:GC.B,pc:'pill-B'};
-  if(p>=60)return{l:'C',c:GC.C,pc:'pill-C'};
-  if(p>=50)return{l:'D',c:GC.D,pc:'pill-D'};
-  return{l:'F',c:GC.F,pc:'pill-F'};
-}
-
-/* ─── Helpers ─── */
-function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
-function ring(p,color,size=58){
-  const r=22,c2=r+6,str=4,dash=2*Math.PI*r,fill=p!==null?Math.min(p/100,1):0;
-  const g=gi(p);
-  return`<div class="ring-wrap" style="width:${size}px;height:${size}px">
-    <svg class="ring-svg" width="${size}" height="${size}" viewBox="0 0 ${c2*2} ${c2*2}">
-      <circle cx="${c2}" cy="${c2}" r="${r}" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="${str}"/>
-      <circle cx="${c2}" cy="${c2}" r="${r}" fill="none" stroke="${color}" stroke-width="${str}"
-        stroke-dasharray="${dash}" stroke-dashoffset="${dash-dash*fill}" stroke-linecap="round"
-        style="transition:stroke-dashoffset 0.7s cubic-bezier(.4,0,.2,1)"/>
-    </svg>
-    <div class="ring-text" style="font-size:${size>52?11:9}px;color:${color}">${g.l}</div>
-  </div>`;
-}
-
-/* ─── Main Render ─── */
-function render(){
-  sv2();
-  const d=new Date();
-  const hd=document.getElementById('hdate');
-  if(hd)hd.innerHTML=`<div>${d.toLocaleDateString('en-ZA',{weekday:'long'})}</div><div>${d.toLocaleDateString('en-ZA',{day:'numeric',month:'long',year:'numeric'})}</div>`;
-  ['overview','subjects','grades','add_work'].forEach(v=>{const b=document.getElementById('nb-'+v);if(b)b.classList.toggle('active',S.view===v)});
-  const root=document.getElementById('root');
-  root.innerHTML='';
-  if(S.view==='overview')bOverview(root);
-  else if(S.view==='subjects')bSubjects(root);
-  else if(S.view==='grades')bGrades(root);
-  else if(S.view==='add_work')bAddWork(root);
-}
-
-/* ─── Overview ─── */
-function bOverview(root){
-  if(!S.subjects.length){
-    root.innerHTML=`<div class="empty"><div class="empty-icon">📚</div>No subjects yet. Go to Subjects to get started.</div>`;return;
-  }
-
-  // Semester cards
-  const sg=document.createElement('div');sg.className='sem-grid';
-  [1,2].forEach((sem,i)=>{
-    const ps=S.subjects.map(s=>semCalc(s.id,sem)).filter(p=>p!==null);
-    const avg=ps.length?Math.round(ps.reduce((a,b)=>a+b,0)/ps.length*10)/10:null;
-    const g=gi(avg);
-    sg.innerHTML+=`<div class="sem-card s${sem} fade-up d${i+1}">
-      <div class="sem-card-bg">${sem}</div>
-      <div class="sem-label">
-        <span class="pill pill-sem${sem}">Semester ${sem}</span>
-        <span style="font-size:11px;color:var(--text3)">Term ${sem===1?'1 & 2':'3 & 4'}</span>
-      </div>
-      <div class="sem-value" style="color:${g.c}">${avg!==null?avg.toFixed(1)+'%':'—'}</div>
-      <div class="sem-sub">${ps.length} subject${ps.length!==1?'s':''} with data · ${g.l!=='—'?'Grade '+g.l:'No data yet'}</div>
-    </div>`;
-  });
-  root.appendChild(sg);
-
-  const st=document.createElement('div');st.className='section-title fade-up d3';
-  st.innerHTML=`<span>All subjects</span><span class="hint">${S.subjects.length}/10</span>`;
-  root.appendChild(st);
-
-  S.subjects.forEach((s,si)=>{
-    const tps=[1,2,3,4].map(t=>calcPct(s.id,t));
-    const valid=tps.filter(p=>p!==null);
-    const avg=valid.length?Math.round(valid.reduce((a,b)=>a+b,0)/valid.length*10)/10:null;
-    const g=gi(avg);
-    const card=document.createElement('div');
-    card.className='subj-card fade-up';
-    card.style.cssText=`--subj-color:${s.color};animation-delay:${0.1+si*0.07}s`;
-    card.innerHTML=`
-      <div class="subj-top">
-        <div style="flex:1;min-width:0">
-          <div class="subj-name">${esc(s.name)}</div>
-          <div class="term-pills">
-            ${[1,2,3,4].map((t,i)=>{const g2=gi(tps[i]);return`<span class="pill ${g2.pc}">T${t}: ${tps[i]!==null?tps[i].toFixed(1)+'%':'—'}</span>`}).join('')}
-          </div>
-        </div>
-        <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
-          ${ring(avg,g.c)}
-          <div style="font-size:10px;color:var(--text3)">avg</div>
+  <div class="shell">
+    <header class="header">
+      <div class="logo">
+        <div class="logo-icon">🎓</div>
+        <div class="logo-text">
+          <h1>Grade Vault</h1>
+          <p>Your academic progress tracker</p>
         </div>
       </div>
-      <div class="prog-bar">
-        <div class="prog-fill" style="width:${avg||0}%;background:${g.c};box-shadow:0 0 8px ${g.c}44"></div>
-      </div>`;
-    root.appendChild(card);
-  });
+      <div class="header-date" id="hdate"></div>
+    </header>
 
-  // Grade legend
-  const lst=document.createElement('div');lst.className='section-title fade-up';lst.style.marginTop='24px';lst.textContent='Grade scale';
-  root.appendChild(lst);
-  const lg=document.createElement('div');lg.className='legend fade-up';
-  [['A','≥ 80%'],['B','70–79%'],['C','60–69%'],['D','50–59%'],['F','< 50%']].forEach(([l,r])=>{
-    lg.innerHTML+=`<div class="legend-item"><span class="pill pill-${l}">${l}</span>${r}</div>`;
-  });
-  root.appendChild(lg);
-}
+    <nav class="nav-wrap">
+      <button class="nav-btn" id="nb-overview" type="button"><span>📊 Overview</span></button>
+      <button class="nav-btn" id="nb-subjects" type="button"><span>📚 Subjects</span></button>
+      <button class="nav-btn" id="nb-grades" type="button"><span>🏆 My Grades</span></button>
+      <button class="nav-btn" id="nb-add_work" type="button"><span>✏️ Add Work</span></button>
+    </nav>
 
-/* ─── Subjects ─── */
-function bSubjects(root){
-  const ac=document.createElement('div');ac.className='card fade-up';
-  ac.innerHTML=`
-    <div class="card-title">Add a subject <span class="badge-count">${S.subjects.length}/10</span></div>
-    <div class="form-grid-2" style="margin-bottom:14px">
-      <div><label class="form-label">Subject name</label><input type="text" id="sn" value="${esc(S.addName)}" placeholder="e.g. Life Sciences, History…"/></div>
-      <div><label class="form-label">Accent colour</label><input type="color" id="sc" value="${S.addColor}"/></div>
-    </div>`;
-  const ab=document.createElement('button');ab.className='btn btn-primary';ab.innerHTML='+ Add subject';ab.onclick=addSubj;
-  if(S.subjects.length>=10){ab.disabled=true;ab.style.opacity='0.4';ab.style.cursor='not-allowed'}
-  ac.appendChild(ab);root.appendChild(ac);
+    <main id="root"></main>
+  </div>
 
-  const st=document.createElement('div');st.className='section-title fade-up d1';st.textContent='Your subjects';root.appendChild(st);
+  <script>
+    (() => {
+      const STORAGE_KEY = 'gv4';
 
-  if(!S.subjects.length){root.innerHTML+=`<div class="empty"><div class="empty-icon">📂</div>No subjects added yet.</div>`;return}
-  const lc=document.createElement('div');lc.className='card fade-up d2';
-  S.subjects.forEach(s=>{
-    const row=document.createElement('div');row.className='subj-list-row';
-    row.innerHTML=`<div class="subj-dot-wrap"><div class="subj-dot" style="background:${s.color};box-shadow:0 0 8px ${s.color}88"></div><span style="font-weight:500;font-size:14px">${esc(s.name)}</span></div>`;
-    const rb=document.createElement('button');rb.className='btn btn-sm btn-danger';rb.innerHTML='× Remove';rb.onclick=()=>rmSubj(s.id);
-    row.appendChild(rb);lc.appendChild(row);
-  });
-  root.appendChild(lc);
-}
+      const DEFAULT_DATA = {
+        subjects: [
+          { id: 1, name: 'Mathematics', color: '#7c6ff7' },
+          { id: 2, name: 'Physical Sciences', color: '#2dd4bf' }
+        ],
+        assignments: [
+          { id: 1, subjectId: 1, name: 'Assignment 1', type: 'assignment', term: 1, weight: 20, mark: 75, outOf: 100 },
+          { id: 2, subjectId: 1, name: 'Test 1', type: 'test', term: 1, weight: 30, mark: 82, outOf: 100 },
+          { id: 3, subjectId: 1, name: 'Class Test 1', type: 'class_test', term: 1, weight: 15, mark: 60, outOf: 100 },
+          { id: 4, subjectId: 1, name: 'Exam', type: 'exam', term: 1, weight: 35, mark: 78, outOf: 100 },
+          { id: 5, subjectId: 2, name: 'Prac 1', type: 'practical', term: 1, weight: 25, mark: 90, outOf: 100 },
+          { id: 6, subjectId: 2, name: 'Test 1', type: 'test', term: 2, weight: 40, mark: 68, outOf: 100 }
+        ],
+        nid: 20
+      };
 
-/* ─── Grades ─── */
-function bGrades(root){
-  if(!S.subjects.length){root.innerHTML=`<div class="empty"><div class="empty-icon">📊</div>Add subjects first.</div>`;return}
-  const s=S.subjects.find(x=>x.id===S.aSubId)||S.subjects[0];
-  if(s.id!==S.aSubId)S.aSubId=s.id;
+      const TYPES = {
+        assignment: 'Assignment',
+        test: 'Test',
+        class_test: 'Class Test',
+        exam: 'Exam',
+        project: 'Project',
+        practical: 'Practical'
+      };
 
-  // Tabs
-  const tabs=document.createElement('div');tabs.className='subject-tabs fade-up';
-  S.subjects.forEach(sub=>{
-    const btn=document.createElement('button');
-    btn.className='subject-tab'+(sub.id===s.id?' active':'');
-    btn.textContent=sub.name;
-    if(sub.id===s.id){btn.style.background=s.color;btn.style.color='#fff';btn.style.borderColor=s.color;btn.style.boxShadow=`0 0 20px ${s.color}44`}
-    btn.onclick=()=>{S.aSubId=sub.id;render()};
-    tabs.appendChild(btn);
-  });
-  root.appendChild(tabs);
+      const GRADE_COLORS = {
+        A: '#4ade80',
+        B: '#60a5fa',
+        C: '#a78bfa',
+        D: '#fbbf24',
+        F: '#f87171'
+      };
 
-  // Term grid
-  const tg=document.createElement('div');tg.className='term-grid fade-up d1';
-  [1,2,3,4].forEach(t=>{
-    const p=calcPct(s.id,t);const g=gi(p);
-    const its=S.assignments.filter(a=>a.subjectId===s.id&&a.term===t);
-    tg.innerHTML+=`<div class="term-card tc-t${t}${p===null?' tc-nil':''}">
-      <div class="tc-glow"></div>
-      <div class="tc-label">Term ${t} · Sem ${t<=2?1:2}</div>
-      <div class="tc-value">${p!==null?p.toFixed(1)+'%':'—'}</div>
-      <div class="tc-sub">${its.length} item${its.length!==1?'s':''} · ${g.l!=='—'?'Grade '+g.l:'No data'}</div>
-    </div>`;
-  });
-  root.appendChild(tg);
-
-  // Semester averages
-  const mg=document.createElement('div');mg.className='metric-grid fade-up d2';
-  [[1,'var(--accent)'],[2,'var(--teal)']].forEach(([sem,col])=>{
-    const p=semCalc(s.id,sem);const g=gi(p);
-    mg.innerHTML+=`<div class="metric" style="--m-color:${col}">
-      <div class="metric-label">Semester ${sem} average</div>
-      <div class="metric-value">${p!==null?p.toFixed(1)+'%':'—'}</div>
-      <div class="metric-sub">Terms ${sem===1?'1 & 2':'3 & 4'} · ${g.l!=='—'?'Grade '+g.l:'No data yet'}</div>
-    </div>`;
-  });
-  root.appendChild(mg);
-
-  // Per-term tables
-  [1,2,3,4].forEach((t,ti)=>{
-    const items=S.assignments.filter(a=>a.subjectId===s.id&&a.term===t);
-    const tw=twCalc(s.id,t);const over=tw>100;
-    const std=document.createElement('div');std.className='section-title fade-up';std.style.animationDelay=(0.05+ti*0.04)+'s';
-    std.innerHTML=`<span>Term ${t}</span><span class="hint" style="color:${over?'var(--coral)':'var(--text3)'}">Weight total: ${tw}%${over?' ⚠ over 100%':''}</span>`;
-    root.appendChild(std);
-
-    const card=document.createElement('div');card.className='card fade-up';card.style.animationDelay=(0.08+ti*0.04)+'s';
-    if(!items.length){
-      card.innerHTML=`<div style="font-size:13px;color:var(--text3);padding:6px 0">No items for Term ${t} yet — add some in "Add Work".</div>`;
-    } else {
-      const hdr=document.createElement('div');hdr.className='assign-header';
-      hdr.innerHTML='<span>Name</span><span>Type</span><span>Weight</span><span>Mark</span><span>Out of</span><span></span>';
-      card.appendChild(hdr);
-      items.forEach(a=>{
-        const ap=a.mark!==''&&a.mark!=null&&a.outOf?Math.round(Number(a.mark)/Number(a.outOf)*1000)/10:null;
-        const g=gi(ap);
-        const row=document.createElement('div');row.className='assign-row';
-        const ns=document.createElement('span');ns.style.cssText='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500';ns.title=a.name;ns.textContent=a.name;
-        const ts=document.createElement('span');ts.innerHTML=`<span class="pill pill-type">${TYPES[a.type]||a.type}</span>`;
-        const ws=document.createElement('span');ws.style.color='var(--text2)';ws.textContent=a.weight+'%';
-        const mi=document.createElement('input');mi.type='number';mi.className='inline-input';mi.value=a.mark!==''&&a.mark!=null?a.mark:'';mi.min=0;mi.max=a.outOf;mi.step='0.5';mi.placeholder='—';mi.style.color=g.c;mi.oninput=function(){upMark(a.id,'mark',this.value)};
-        const oi=document.createElement('input');oi.type='number';oi.className='inline-input';oi.value=a.outOf;oi.min=1;oi.oninput=function(){upMark(a.id,'outOf',this.value)};
-        const db=document.createElement('button');db.className='btn btn-sm btn-danger';db.textContent='×';db.onclick=()=>rmAssign(a.id);
-        [ns,ts,ws,mi,oi,db].forEach(el=>row.appendChild(el));
-        card.appendChild(row);
-      });
-      const valid=items.filter(a=>a.mark!==''&&a.mark!=null);
-      if(valid.length){
-        const p=calcPct(s.id,t);const g=gi(p);
-        const ft=document.createElement('div');ft.className='weighted-total';
-        ft.innerHTML=`<span style="color:var(--text3);font-weight:400">Weighted total:</span><span style="color:${g.c};font-size:15px">${p!==null?p.toFixed(1)+'%':'—'}</span><span class="pill ${g.pc}">${g.l}</span>`;
-        card.appendChild(ft);
+      function safeClone(value) {
+        return JSON.parse(JSON.stringify(value));
       }
-    }
-    root.appendChild(card);
-  });
-}
 
-/* ─── Add Work ─── */
-function bAddWork(root){
-  if(!S.subjects.length){root.innerHTML=`<div class="empty"><div class="empty-icon">✏️</div>Add subjects first.</div>`;return}
-  const na=S.na,sid=na.subjectId||S.subjects[0].id;
-  const ex=twCalc(sid,na.term),tot=ex+Number(na.weight||0);
+      function loadState() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return null;
+          const parsed = JSON.parse(raw);
+          if (!parsed || !Array.isArray(parsed.subjects) || !Array.isArray(parsed.assignments)) {
+            return null;
+          }
+          return parsed;
+        } catch (error) {
+          console.error('Could not load saved data:', error);
+          return null;
+        }
+      }
 
-  const nt=document.createElement('div');nt.className='notice fade-up';
-  nt.innerHTML=`<span class="notice-icon">💡</span><span>Add any assessment item, set its term weighting and enter marks now or later in My Grades. The system calculates your weighted percentage automatically.</span>`;
-  root.appendChild(nt);
+      function saveState() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify({
+            subjects: state.subjects,
+            assignments: state.assignments,
+            nid: state.nid
+          }));
+        } catch (error) {
+          console.error('Could not save data:', error);
+        }
+      }
 
-  const card=document.createElement('div');card.className='card fade-up d1';
-  card.innerHTML=`
-    <div class="card-title">New assessment item</div>
-    <div class="form-grid-2" style="margin-bottom:14px">
-      <div><label class="form-label">Subject</label>
-        <select id="nas">${S.subjects.map(s=>`<option value="${s.id}" ${sid===s.id?'selected':''}>${esc(s.name)}</option>`).join('')}</select></div>
-      <div><label class="form-label">Type</label>
-        <select id="nat">${Object.entries(TYPES).map(([k,v])=>`<option value="${k}" ${na.type===k?'selected':''}>${v}</option>`).join('')}</select></div>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Assessment name</label>
-      <input type="text" id="nan" value="${esc(na.name)}" placeholder="e.g. Test 2, Assignment 3, Final Exam…"/>
-    </div>
-    <div class="form-grid-3" style="margin-bottom:14px">
-      <div><label class="form-label">Term</label>
-        <select id="nate">${[1,2,3,4].map(t=>`<option value="${t}" ${na.term===t?'selected':''}>Term ${t} (Sem ${t<=2?1:2})</option>`).join('')}</select></div>
-      <div><label class="form-label">Weighting (%)</label>
-        <input type="number" id="naw" value="${na.weight}" min="1" max="100" placeholder="e.g. 30"/>
-        <div id="wi" class="${tot>100?'weight-warn':'weight-ok'}">${tot>100?`⚠ Term total: ${tot}%`:`Term total: ${tot}%`}</div>
-      </div>
-      <div><label class="form-label">Out of</label>
-        <input type="number" id="nao" value="${na.outOf}" min="1"/></div>
-    </div>
-    <div class="form-group" style="max-width:180px">
-      <label class="form-label">Mark <span style="color:var(--text3)">(optional)</span></label>
-      <input type="number" id="nam" value="${na.mark}" min="0" placeholder="Leave blank for now"/>
-    </div>`;
-  const ab=document.createElement('button');ab.className='btn btn-primary';ab.innerHTML='+ Add assessment';ab.onclick=addAssign;
-  card.appendChild(ab);
+      const saved = loadState();
+      const state = {
+        view: 'overview',
+        aSubId: null,
+        subjects: saved?.subjects?.length ? saved.subjects : safeClone(DEFAULT_DATA.subjects),
+        assignments: saved?.assignments?.length ? saved.assignments : safeClone(DEFAULT_DATA.assignments),
+        nid: Number.isFinite(saved?.nid) ? saved.nid : DEFAULT_DATA.nid,
+        na: { name: '', type: 'assignment', term: 1, weight: '', mark: '', outOf: 100, subjectId: null },
+        addName: '',
+        addColor: '#7c6ff7'
+      };
 
-  function updateWI(){
-    const s2=parseInt(card.querySelector('#nas')?.value||S.subjects[0].id);
-    const t2=parseInt(card.querySelector('#nate')?.value||1);
-    const w2=Number(card.querySelector('#naw')?.value||0);
-    const tot2=twCalc(s2,t2)+w2;
-    const wi=document.getElementById('wi');
-    if(wi){wi.className=tot2>100?'weight-warn':'weight-ok';wi.textContent=tot2>100?`⚠ Term total: ${tot2}%`:`Term total: ${tot2}%`}
-  }
-  ['nas','nate','naw'].forEach(id=>{const el=card.querySelector('#'+id);if(el){el.oninput=updateWI;el.onchange=updateWI}});
-  root.appendChild(card);
+      state.aSubId = state.subjects[0]?.id ?? null;
+      state.na.subjectId = state.subjects[0]?.id ?? null;
 
-  const st=document.createElement('div');st.className='section-title fade-up d2';st.textContent='All assessment items';root.appendChild(st);
-  let any=false;
-  S.subjects.forEach(s=>{
-    const items=S.assignments.filter(a=>a.subjectId===s.id);
-    if(!items.length)return;any=true;
-    const c2=document.createElement('div');c2.className='card fade-up';
-    const ct=document.createElement('div');ct.className='card-title';
-    ct.innerHTML=`<span style="width:10px;height:10px;border-radius:50%;background:${s.color};display:inline-block;box-shadow:0 0 8px ${s.color}77"></span>${esc(s.name)}<span class="badge-count">${items.length} item${items.length!==1?'s':''}</span>`;
-    c2.appendChild(ct);
-    const hdr=document.createElement('div');hdr.className='assign-header';
-    hdr.innerHTML='<span>Name</span><span>Type · Term</span><span>Weight</span><span>Mark</span><span>Out of</span><span></span>';
-    c2.appendChild(hdr);
-    items.forEach(a=>{
-      const ap=a.mark!==''&&a.mark!=null&&a.outOf?Number(a.mark)/Number(a.outOf)*100:null;
-      const g=gi(ap);
-      const row=document.createElement('div');row.className='assign-row';
-      row.innerHTML=`<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500" title="${esc(a.name)}">${esc(a.name)}</span>
-        <span style="font-size:11px;color:var(--text3)">${TYPES[a.type]||a.type} · T${a.term}</span>
-        <span style="color:var(--text2)">${a.weight}%</span>
-        <span style="color:${g.c};font-weight:500">${a.mark!==''&&a.mark!=null?a.mark:'—'}</span>
-        <span style="color:var(--text2)">${a.outOf}</span>`;
-      const d=document.createElement('button');d.className='btn btn-sm btn-danger';d.textContent='×';d.onclick=()=>rmAssign(a.id);
-      row.appendChild(d);c2.appendChild(row);
-    });
-    root.appendChild(c2);
-  });
-  if(!any)root.innerHTML+=`<div class="empty" style="padding:20px"><div class="empty-icon">✏️</div>No items yet. Add your first assessment above!</div>`;
-}
+      function esc(value) {
+        if (value === null || value === undefined) return '';
+        return String(value)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
 
-/* ─── Actions ─── */
-function sv(v){S.view=v;render()}
-function addSubj(){
-  const name=(document.getElementById('sn')?.value||'').trim();
-  if(!name){toast('Please enter a subject name.');return}
-  if(S.subjects.length>=10){toast('Maximum 10 subjects reached.');return}
-  const color=document.getElementById('sc')?.value||S.addColor;
-  S.subjects.push({id:S.nid++,name,color});S.addName='';
-  if(!S.aSubId)S.aSubId=S.subjects[0].id;
-  if(!S.na.subjectId)S.na.subjectId=S.subjects[0].id;
-  render();toast('Subject added! 🎉','ok');
-}
-function rmSubj(id){
-  if(!confirm('Remove this subject and all its assessment items?'))return;
-  S.subjects=S.subjects.filter(s=>s.id!==id);
-  S.assignments=S.assignments.filter(a=>a.subjectId!==id);
-  if(S.aSubId===id)S.aSubId=S.subjects[0]?.id||null;
-  if(S.na.subjectId===id)S.na.subjectId=S.subjects[0]?.id||null;
-  render();
-}
-function addAssign(){
-  const name=(document.getElementById('nan')?.value||'').trim();
-  if(!name){toast('Please enter an assessment name.');return}
-  const weight=Number(document.getElementById('naw')?.value||0);
-  if(!weight||weight<=0){toast('Please enter a valid weighting (%).');return}
-  const subjectId=parseInt(document.getElementById('nas')?.value||S.subjects[0].id);
-  const type=document.getElementById('nat')?.value||'assignment';
-  const term=parseInt(document.getElementById('nate')?.value||1);
-  const outOf=Number(document.getElementById('nao')?.value||100);
-  const mr=document.getElementById('nam')?.value;
-  const mark=mr!==''&&mr!=null?Number(mr):'';
-  S.assignments.push({id:S.nid++,subjectId,name,type,term,weight,mark,outOf:outOf||100});
-  S.na={name:'',type,term,weight:'',mark:'',outOf:100,subjectId};
-  render();toast('Assessment added! ✓','ok');
-}
-function rmAssign(id){S.assignments=S.assignments.filter(a=>a.id!==id);render()}
-function upMark(id,field,val){
-  const a=S.assignments.find(a=>a.id===id);
-  if(!a)return;a[field]=val===''?'':Number(val);sv2();render();
-}
+      function getGradeInfo(percent) {
+        if (percent === null || percent === undefined || Number.isNaN(percent)) {
+          return { l: '—', c: 'var(--text3)', pc: 'pill-nil' };
+        }
+        if (percent >= 80) return { l: 'A', c: GRADE_COLORS.A, pc: 'pill-A' };
+        if (percent >= 70) return { l: 'B', c: GRADE_COLORS.B, pc: 'pill-B' };
+        if (percent >= 60) return { l: 'C', c: GRADE_COLORS.C, pc: 'pill-C' };
+        if (percent >= 50) return { l: 'D', c: GRADE_COLORS.D, pc: 'pill-D' };
+        return { l: 'F', c: GRADE_COLORS.F, pc: 'pill-F' };
+      }
 
-/* ─── Toast ─── */
-function toast(msg,type='err'){
-  let t=document.getElementById('_t');
-  if(!t){t=document.createElement('div');t.id='_t';document.body.appendChild(t)}
-  t.textContent=msg;
-  const ok=type==='ok';
-  t.style.cssText=`position:fixed;bottom:28px;left:50%;transform:translateX(-50%);padding:11px 22px;border-radius:12px;font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;z-index:9999;transition:opacity 0.3s;white-space:nowrap;backdrop-filter:blur(12px);${ok?'background:rgba(74,222,128,0.15);color:#4ade80;border:1px solid rgba(74,222,128,0.25)':'background:rgba(248,113,113,0.15);color:#f87171;border:1px solid rgba(248,113,113,0.25)'}`;
-  t.style.opacity='1';clearTimeout(t._t);t._t=setTimeout(()=>{t.style.opacity='0'},2500);
-}
+      function calcPct(subjectId, term) {
+        const items = state.assignments.filter((a) => (
+          a.subjectId === subjectId &&
+          a.term === term &&
+          a.mark !== '' &&
+          a.mark !== null &&
+          Number(a.outOf) > 0 &&
+          Number(a.weight) > 0
+        ));
 
-render();
-</script>
+        if (!items.length) return null;
+
+        const totalWeight = items.reduce((sum, a) => sum + Number(a.weight), 0);
+        if (!totalWeight) return null;
+
+        const weighted = items.reduce((sum, a) => {
+          return sum + ((Number(a.mark) / Number(a.outOf)) * Number(a.weight));
+        }, 0);
+
+        return Math.round((weighted / totalWeight) * 1000) / 10;
+      }
+
+      function calcSemester(subjectId, semester) {
+        const terms = semester === 1 ? [1, 2] : [3, 4];
+        const values = terms.map((term) => calcPct(subjectId, term)).filter((v) => v !== null);
+        if (!values.length) return null;
+        return Math.round((values.reduce((a, b) => a + b, 0) / values.length) * 10) / 10;
+      }
+
+      function termWeightTotal(subjectId, term) {
+        return state.assignments
+          .filter((a) => a.subjectId === subjectId && a.term === term)
+          .reduce((sum, a) => sum + Number(a.weight || 0), 0);
+      }
+
+      function ring(percent, color, size = 58) {
+        const radius = 22;
+        const center = radius + 6;
+        const stroke = 4;
+        const circumference = 2 * Math.PI * radius;
+        const fill = percent !== null ? Math.min(percent / 100, 1) : 0;
+        const grade = getGradeInfo(percent);
+
+        return `
+          <div class="ring-wrap" style="width:${size}px;height:${size}px">
+            <svg class="ring-svg" width="${size}" height="${size}" viewBox="0 0 ${center * 2} ${center * 2}">
+              <circle cx="${center}" cy="${center}" r="${radius}" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="${stroke}" />
+              <circle
+                cx="${center}"
+                cy="${center}"
+                r="${radius}"
+                fill="none"
+                stroke="${color}"
+                stroke-width="${stroke}"
+                stroke-dasharray="${circumference}"
+                stroke-dashoffset="${circumference - (circumference * fill)}"
+                stroke-linecap="round"
+                style="transition:stroke-dashoffset 0.7s cubic-bezier(.4,0,.2,1)"
+              />
+            </svg>
+            <div class="ring-text" style="font-size:${size > 52 ? 11 : 9}px;color:${color}">${grade.l}</div>
+          </div>
+        `;
+      }
+
+      function setView(view) {
+        state.view = view;
+        render();
+      }
+
+      function toast(message, type = 'err') {
+        let toastEl = document.getElementById('_t');
+        if (!toastEl) {
+          toastEl = document.createElement('div');
+          toastEl.id = '_t';
+          document.body.appendChild(toastEl);
+        }
+
+        const ok = type === 'ok';
+        toastEl.textContent = message;
+        toastEl.style.cssText = `
+          position:fixed;
+          bottom:28px;
+          left:50%;
+          transform:translateX(-50%);
+          padding:11px 22px;
+          border-radius:12px;
+          font-size:13px;
+          font-weight:500;
+          font-family:'DM Sans',sans-serif;
+          z-index:9999;
+          transition:opacity 0.3s;
+          white-space:nowrap;
+          backdrop-filter:blur(12px);
+          ${ok
+            ? 'background:rgba(74,222,128,0.15);color:#4ade80;border:1px solid rgba(74,222,128,0.25);'
+            : 'background:rgba(248,113,113,0.15);color:#f87171;border:1px solid rgba(248,113,113,0.25);'}
+        `;
+        toastEl.style.opacity = '1';
+
+        clearTimeout(toastEl._timer);
+        toastEl._timer = setTimeout(() => {
+          toastEl.style.opacity = '0';
+        }, 2500);
+      }
+
+      function addSubject() {
+        const nameInput = document.getElementById('sn');
+        const colorInput = document.getElementById('sc');
+        const name = (nameInput?.value || '').trim();
+        const color = colorInput?.value || state.addColor;
+
+        if (!name) {
+          toast('Please enter a subject name.');
+          return;
+        }
+
+        if (state.subjects.length >= 10) {
+          toast('Maximum 10 subjects reached.');
+          return;
+        }
+
+        const exists = state.subjects.some((subject) => subject.name.toLowerCase() === name.toLowerCase());
+        if (exists) {
+          toast('That subject already exists.');
+          return;
+        }
+
+        const newSubject = { id: state.nid++, name, color };
+        state.subjects.push(newSubject);
+        state.addName = '';
+        state.addColor = '#7c6ff7';
+
+        if (!state.aSubId) state.aSubId = newSubject.id;
+        if (!state.na.subjectId) state.na.subjectId = newSubject.id;
+
+        render();
+        toast('Subject added! 🎉', 'ok');
+      }
+
+      function removeSubject(id) {
+        if (!window.confirm('Remove this subject and all its assessment items?')) return;
+
+        state.subjects = state.subjects.filter((subject) => subject.id !== id);
+        state.assignments = state.assignments.filter((assignment) => assignment.subjectId !== id);
+
+        if (state.aSubId === id) state.aSubId = state.subjects[0]?.id ?? null;
+        if (state.na.subjectId === id) state.na.subjectId = state.subjects[0]?.id ?? null;
+
+        render();
+        toast('Subject removed.', 'ok');
+      }
+
+      function addAssignment() {
+        const name = (document.getElementById('nan')?.value || '').trim();
+        const subjectId = parseInt(document.getElementById('nas')?.value || state.subjects[0]?.id, 10);
+        const type = document.getElementById('nat')?.value || 'assignment';
+        const term = parseInt(document.getElementById('nate')?.value || '1', 10);
+        const weight = Number(document.getElementById('naw')?.value || 0);
+        const outOf = Number(document.getElementById('nao')?.value || 100);
+        const rawMark = document.getElementById('nam')?.value;
+        const mark = rawMark !== '' && rawMark !== null ? Number(rawMark) : '';
+
+        if (!name) {
+          toast('Please enter an assessment name.');
+          return;
+        }
+
+        if (!Number.isFinite(subjectId)) {
+          toast('Please choose a subject.');
+          return;
+        }
+
+        if (!weight || weight <= 0 || weight > 100) {
+          toast('Please enter a valid weighting between 1 and 100.');
+          return;
+        }
+
+        if (!outOf || outOf <= 0) {
+          toast('Out of must be greater than 0.');
+          return;
+        }
+
+        if (mark !== '' && (mark < 0 || mark > outOf)) {
+          toast('Mark cannot be less than 0 or more than the total.');
+          return;
+        }
+
+        state.assignments.push({
+          id: state.nid++,
+          subjectId,
+          name,
+          type,
+          term,
+          weight,
+          mark,
+          outOf
+        });
+
+        state.na = { name: '', type, term, weight: '', mark: '', outOf: 100, subjectId };
+        render();
+        toast('Assessment added! ✓', 'ok');
+      }
+
+      function removeAssignment(id) {
+        state.assignments = state.assignments.filter((assignment) => assignment.id !== id);
+        render();
+      }
+
+      function updateAssignmentField(id, field, value) {
+        const assignment = state.assignments.find((item) => item.id === id);
+        if (!assignment) return;
+
+        if (value === '') {
+          assignment[field] = '';
+          saveState();
+          render();
+          return;
+        }
+
+        const num = Number(value);
+        if (!Number.isFinite(num)) return;
+
+        if (field === 'outOf') {
+          if (num <= 0) {
+            toast('Out of must be greater than 0.');
+            render();
+            return;
+          }
+          assignment.outOf = Math.round(num * 100) / 100;
+          if (assignment.mark !== '' && Number(assignment.mark) > assignment.outOf) {
+            assignment.mark = assignment.outOf;
+          }
+        }
+
+        if (field === 'mark') {
+          const max = Number(assignment.outOf) || 100;
+          if (num < 0 || num > max) {
+            toast(`Mark must be between 0 and ${max}.`);
+            render();
+            return;
+          }
+          assignment.mark = Math.round(num * 100) / 100;
+        }
+
+        saveState();
+        render();
+      }
+
+      function renderOverview(root) {
+        if (!state.subjects.length) {
+          root.innerHTML = '<div class="empty"><div class="empty-icon">📚</div>No subjects yet. Go to Subjects to get started.</div>';
+          return;
+        }
+
+        const semesterGrid = document.createElement('div');
+        semesterGrid.className = 'sem-grid';
+
+        [1, 2].forEach((semester, index) => {
+          const values = state.subjects.map((subject) => calcSemester(subject.id, semester)).filter((value) => value !== null);
+          const average = values.length ? Math.round((values.reduce((a, b) => a + b, 0) / values.length) * 10) / 10 : null;
+          const grade = getGradeInfo(average);
+
+          semesterGrid.innerHTML += `
+            <div class="sem-card s${semester} fade-up d${index + 1}">
+              <div class="sem-card-bg">${semester}</div>
+              <div class="sem-label">
+                <span class="pill pill-sem${semester}">Semester ${semester}</span>
+                <span style="font-size:11px;color:var(--text3)">Term ${semester === 1 ? '1 & 2' : '3 & 4'}</span>
+              </div>
+              <div class="sem-value" style="color:${grade.c}">${average !== null ? average.toFixed(1) + '%' : '—'}</div>
+              <div class="sem-sub">${values.length} subject${values.length !== 1 ? 's' : ''} with data · ${grade.l !== '—' ? 'Grade ' + grade.l : 'No data yet'}</div>
+            </div>
+          `;
+        });
+
+        root.appendChild(semesterGrid);
+
+        const sectionTitle = document.createElement('div');
+        sectionTitle.className = 'section-title fade-up d3';
+        sectionTitle.innerHTML = `<span>All subjects</span><span class="hint">${state.subjects.length}/10</span>`;
+        root.appendChild(sectionTitle);
+
+        state.subjects.forEach((subject, index) => {
+          const termPcts = [1, 2, 3, 4].map((term) => calcPct(subject.id, term));
+          const valid = termPcts.filter((value) => value !== null);
+          const average = valid.length ? Math.round((valid.reduce((a, b) => a + b, 0) / valid.length) * 10) / 10 : null;
+          const grade = getGradeInfo(average);
+
+          const card = document.createElement('div');
+          card.className = 'subj-card fade-up';
+          card.style.cssText = `--subj-color:${subject.color};animation-delay:${0.1 + index * 0.07}s`;
+          card.innerHTML = `
+            <div class="subj-top">
+              <div style="flex:1;min-width:0">
+                <div class="subj-name">${esc(subject.name)}</div>
+                <div class="term-pills">
+                  ${[1, 2, 3, 4].map((term, termIndex) => {
+                    const info = getGradeInfo(termPcts[termIndex]);
+                    return `<span class="pill ${info.pc}">T${term}: ${termPcts[termIndex] !== null ? termPcts[termIndex].toFixed(1) + '%' : '—'}</span>`;
+                  }).join('')}
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+                ${ring(average, grade.c)}
+                <div style="font-size:10px;color:var(--text3)">avg</div>
+              </div>
+            </div>
+            <div class="prog-bar">
+              <div class="prog-fill" style="width:${average || 0}%;background:${grade.c};box-shadow:0 0 8px ${grade.c}44"></div>
+            </div>
+          `;
+          root.appendChild(card);
+        });
+
+        const legendTitle = document.createElement('div');
+        legendTitle.className = 'section-title fade-up';
+        legendTitle.style.marginTop = '24px';
+        legendTitle.textContent = 'Grade scale';
+        root.appendChild(legendTitle);
+
+        const legend = document.createElement('div');
+        legend.className = 'legend fade-up';
+        [['A', '≥ 80%'], ['B', '70–79%'], ['C', '60–69%'], ['D', '50–59%'], ['F', '< 50%']].forEach(([grade, range]) => {
+          legend.innerHTML += `<div class="legend-item"><span class="pill pill-${grade}">${grade}</span>${range}</div>`;
+        });
+        root.appendChild(legend);
+      }
+
+      function renderSubjects(root) {
+        const addCard = document.createElement('div');
+        addCard.className = 'card fade-up';
+        addCard.innerHTML = `
+          <div class="card-title">Add a subject <span class="badge-count">${state.subjects.length}/10</span></div>
+          <div class="form-grid-2" style="margin-bottom:14px">
+            <div>
+              <label class="form-label">Subject name</label>
+              <input type="text" id="sn" value="${esc(state.addName)}" placeholder="e.g. Life Sciences, History…" />
+            </div>
+            <div>
+              <label class="form-label">Accent colour</label>
+              <input type="color" id="sc" value="${state.addColor}" />
+            </div>
+          </div>
+        `;
+
+        const addButton = document.createElement('button');
+        addButton.type = 'button';
+        addButton.className = 'btn btn-primary';
+        addButton.innerHTML = '+ Add subject';
+        addButton.addEventListener('click', addSubject);
+
+        if (state.subjects.length >= 10) {
+          addButton.disabled = true;
+          addButton.style.opacity = '0.4';
+          addButton.style.cursor = 'not-allowed';
+        }
+
+        addCard.appendChild(addButton);
+        root.appendChild(addCard);
+
+        const title = document.createElement('div');
+        title.className = 'section-title fade-up d1';
+        title.textContent = 'Your subjects';
+        root.appendChild(title);
+
+        if (!state.subjects.length) {
+          root.innerHTML += '<div class="empty"><div class="empty-icon">📂</div>No subjects added yet.</div>';
+          return;
+        }
+
+        const listCard = document.createElement('div');
+        listCard.className = 'card fade-up d2';
+
+        state.subjects.forEach((subject) => {
+          const row = document.createElement('div');
+          row.className = 'subj-list-row';
+          row.innerHTML = `
+            <div class="subj-dot-wrap">
+              <div class="subj-dot" style="background:${subject.color};box-shadow:0 0 8px ${subject.color}88"></div>
+              <span style="font-weight:500;font-size:14px">${esc(subject.name)}</span>
+            </div>
+          `;
+
+          const removeButton = document.createElement('button');
+          removeButton.type = 'button';
+          removeButton.className = 'btn btn-sm btn-danger';
+          removeButton.textContent = '× Remove';
+          removeButton.addEventListener('click', () => removeSubject(subject.id));
+
+          row.appendChild(removeButton);
+          listCard.appendChild(row);
+        });
+
+        root.appendChild(listCard);
+      }
+
+      function renderGrades(root) {
+        if (!state.subjects.length) {
+          root.innerHTML = '<div class="empty"><div class="empty-icon">📊</div>Add subjects first.</div>';
+          return;
+        }
+
+        const currentSubject = state.subjects.find((subject) => subject.id === state.aSubId) || state.subjects[0];
+        if (currentSubject.id !== state.aSubId) state.aSubId = currentSubject.id;
+
+        const tabs = document.createElement('div');
+        tabs.className = 'subject-tabs fade-up';
+
+        state.subjects.forEach((subject) => {
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'subject-tab' + (subject.id === currentSubject.id ? ' active' : '');
+          button.textContent = subject.name;
+          if (subject.id === currentSubject.id) {
+            button.style.background = subject.color;
+            button.style.color = '#fff';
+            button.style.borderColor = subject.color;
+            button.style.boxShadow = `0 0 20px ${subject.color}44`;
+          }
+          button.addEventListener('click', () => {
+            state.aSubId = subject.id;
+            render();
+          });
+          tabs.appendChild(button);
+        });
+        root.appendChild(tabs);
+
+        const termGrid = document.createElement('div');
+        termGrid.className = 'term-grid fade-up d1';
+        [1, 2, 3, 4].forEach((term) => {
+          const percent = calcPct(currentSubject.id, term);
+          const grade = getGradeInfo(percent);
+          const items = state.assignments.filter((assignment) => assignment.subjectId === currentSubject.id && assignment.term === term);
+          termGrid.innerHTML += `
+            <div class="term-card tc-t${term}${percent === null ? ' tc-nil' : ''}">
+              <div class="tc-glow"></div>
+              <div class="tc-label">Term ${term} · Sem ${term <= 2 ? 1 : 2}</div>
+              <div class="tc-value">${percent !== null ? percent.toFixed(1) + '%' : '—'}</div>
+              <div class="tc-sub">${items.length} item${items.length !== 1 ? 's' : ''} · ${grade.l !== '—' ? 'Grade ' + grade.l : 'No data'}</div>
+            </div>
+          `;
+        });
+        root.appendChild(termGrid);
+
+        const metricGrid = document.createElement('div');
+        metricGrid.className = 'metric-grid fade-up d2';
+        [[1, 'var(--accent)'], [2, 'var(--teal)']].forEach(([semester, color]) => {
+          const percent = calcSemester(currentSubject.id, semester);
+          const grade = getGradeInfo(percent);
+          metricGrid.innerHTML += `
+            <div class="metric" style="--m-color:${color}">
+              <div class="metric-label">Semester ${semester} average</div>
+              <div class="metric-value">${percent !== null ? percent.toFixed(1) + '%' : '—'}</div>
+              <div class="metric-sub">Terms ${semester === 1 ? '1 & 2' : '3 & 4'} · ${grade.l !== '—' ? 'Grade ' + grade.l : 'No data yet'}</div>
+            </div>
+          `;
+        });
+        root.appendChild(metricGrid);
+
+        [1, 2, 3, 4].forEach((term, index) => {
+          const items = state.assignments.filter((assignment) => assignment.subjectId === currentSubject.id && assignment.term === term);
+          const totalWeight = termWeightTotal(currentSubject.id, term);
+          const over = totalWeight > 100;
+
+          const title = document.createElement('div');
+          title.className = 'section-title fade-up';
+          title.style.animationDelay = `${0.05 + index * 0.04}s`;
+          title.innerHTML = `<span>Term ${term}</span><span class="hint" style="color:${over ? 'var(--coral)' : 'var(--text3)'}">Weight total: ${totalWeight}%${over ? ' ⚠ over 100%' : ''}</span>`;
+          root.appendChild(title);
+
+          const card = document.createElement('div');
+          card.className = 'card fade-up';
+          card.style.animationDelay = `${0.08 + index * 0.04}s`;
+
+          if (!items.length) {
+            card.innerHTML = `<div style="font-size:13px;color:var(--text3);padding:6px 0">No items for Term ${term} yet — add some in “Add Work”.</div>`;
+          } else {
+            const header = document.createElement('div');
+            header.className = 'assign-header';
+            header.innerHTML = '<span>Name</span><span>Type</span><span>Weight</span><span>Mark</span><span>Out of</span><span></span>';
+            card.appendChild(header);
+
+            items.forEach((assignment) => {
+              const assignmentPercent = assignment.mark !== '' && assignment.mark !== null && assignment.outOf
+                ? Math.round((Number(assignment.mark) / Number(assignment.outOf)) * 1000) / 10
+                : null;
+              const grade = getGradeInfo(assignmentPercent);
+
+              const row = document.createElement('div');
+              row.className = 'assign-row';
+
+              const name = document.createElement('span');
+              name.style.cssText = 'overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500';
+              name.title = assignment.name;
+              name.textContent = assignment.name;
+
+              const type = document.createElement('span');
+              type.innerHTML = `<span class="pill pill-type">${TYPES[assignment.type] || assignment.type}</span>`;
+
+              const weight = document.createElement('span');
+              weight.style.color = 'var(--text2)';
+              weight.textContent = assignment.weight + '%';
+
+              const markInput = document.createElement('input');
+              markInput.type = 'number';
+              markInput.className = 'inline-input';
+              markInput.value = assignment.mark !== '' && assignment.mark !== null ? assignment.mark : '';
+              markInput.min = 0;
+              markInput.max = assignment.outOf;
+              markInput.step = '0.5';
+              markInput.placeholder = '—';
+              markInput.style.color = grade.c;
+              markInput.addEventListener('change', function () {
+                updateAssignmentField(assignment.id, 'mark', this.value);
+              });
+
+              const outOfInput = document.createElement('input');
+              outOfInput.type = 'number';
+              outOfInput.className = 'inline-input';
+              outOfInput.value = assignment.outOf;
+              outOfInput.min = 1;
+              outOfInput.addEventListener('change', function () {
+                updateAssignmentField(assignment.id, 'outOf', this.value);
+              });
+
+              const removeButton = document.createElement('button');
+              removeButton.type = 'button';
+              removeButton.className = 'btn btn-sm btn-danger';
+              removeButton.textContent = '×';
+              removeButton.addEventListener('click', () => removeAssignment(assignment.id));
+
+              [name, type, weight, markInput, outOfInput, removeButton].forEach((element) => row.appendChild(element));
+              card.appendChild(row);
+            });
+
+            const valid = items.filter((assignment) => assignment.mark !== '' && assignment.mark !== null);
+            if (valid.length) {
+              const percent = calcPct(currentSubject.id, term);
+              const grade = getGradeInfo(percent);
+              const footer = document.createElement('div');
+              footer.className = 'weighted-total';
+              footer.innerHTML = `
+                <span style="color:var(--text3);font-weight:400">Weighted total:</span>
+                <span style="color:${grade.c};font-size:15px">${percent !== null ? percent.toFixed(1) + '%' : '—'}</span>
+                <span class="pill ${grade.pc}">${grade.l}</span>
+              `;
+              card.appendChild(footer);
+            }
+          }
+
+          root.appendChild(card);
+        });
+      }
+
+      function renderAddWork(root) {
+        if (!state.subjects.length) {
+          root.innerHTML = '<div class="empty"><div class="empty-icon">✏️</div>Add subjects first.</div>';
+          return;
+        }
+
+        const na = state.na;
+        const subjectId = na.subjectId || state.subjects[0].id;
+        const currentWeight = termWeightTotal(subjectId, na.term);
+        const projectedTotal = currentWeight + Number(na.weight || 0);
+
+        const notice = document.createElement('div');
+        notice.className = 'notice fade-up';
+        notice.innerHTML = '<span class="notice-icon">💡</span><span>Add any assessment item, set its term weighting and enter marks now or later in My Grades. The system calculates your weighted percentage automatically.</span>';
+        root.appendChild(notice);
+
+        const card = document.createElement('div');
+        card.className = 'card fade-up d1';
+        card.innerHTML = `
+          <div class="card-title">New assessment item</div>
+          <div class="form-grid-2" style="margin-bottom:14px">
+            <div>
+              <label class="form-label">Subject</label>
+              <select id="nas">${state.subjects.map((subject) => `<option value="${subject.id}" ${subjectId === subject.id ? 'selected' : ''}>${esc(subject.name)}</option>`).join('')}</select>
+            </div>
+            <div>
+              <label class="form-label">Type</label>
+              <select id="nat">${Object.entries(TYPES).map(([key, label]) => `<option value="${key}" ${na.type === key ? 'selected' : ''}>${label}</option>`).join('')}</select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Assessment name</label>
+            <input type="text" id="nan" value="${esc(na.name)}" placeholder="e.g. Test 2, Assignment 3, Final Exam…" />
+          </div>
+
+          <div class="form-grid-3" style="margin-bottom:14px">
+            <div>
+              <label class="form-label">Term</label>
+              <select id="nate">${[1, 2, 3, 4].map((term) => `<option value="${term}" ${na.term === term ? 'selected' : ''}>Term ${term} (Sem ${term <= 2 ? 1 : 2})</option>`).join('')}</select>
+            </div>
+            <div>
+              <label class="form-label">Weighting (%)</label>
+              <input type="number" id="naw" value="${na.weight}" min="1" max="100" placeholder="e.g. 30" />
+              <div id="wi" class="${projectedTotal > 100 ? 'weight-warn' : 'weight-ok'}">${projectedTotal > 100 ? `⚠ Term total: ${projectedTotal}%` : `Term total: ${projectedTotal}%`}</div>
+            </div>
+            <div>
+              <label class="form-label">Out of</label>
+              <input type="number" id="nao" value="${na.outOf}" min="1" />
+            </div>
+          </div>
+
+          <div class="form-group" style="max-width:180px">
+            <label class="form-label">Mark <span style="color:var(--text3)">(optional)</span></label>
+            <input type="number" id="nam" value="${na.mark}" min="0" placeholder="Leave blank for now" />
+          </div>
+        `;
+
+        const addButton = document.createElement('button');
+        addButton.type = 'button';
+        addButton.className = 'btn btn-primary';
+        addButton.innerHTML = '+ Add assessment';
+        addButton.addEventListener('click', addAssignment);
+        card.appendChild(addButton);
+
+        root.appendChild(card);
+
+        function updateWeightInfo() {
+          const selectedSubjectId = parseInt(card.querySelector('#nas')?.value || state.subjects[0].id, 10);
+          const selectedTerm = parseInt(card.querySelector('#nate')?.value || '1', 10);
+          const inputWeight = Number(card.querySelector('#naw')?.value || 0);
+          const total = termWeightTotal(selectedSubjectId, selectedTerm) + inputWeight;
+          const info = card.querySelector('#wi');
+          if (info) {
+            info.className = total > 100 ? 'weight-warn' : 'weight-ok';
+            info.textContent = total > 100 ? `⚠ Term total: ${total}%` : `Term total: ${total}%`;
+          }
+        }
+
+        ['nas', 'nate', 'naw'].forEach((id) => {
+          const element = card.querySelector('#' + id);
+          if (element) {
+            element.addEventListener('input', updateWeightInfo);
+            element.addEventListener('change', updateWeightInfo);
+          }
+        });
+
+        const title = document.createElement('div');
+        title.className = 'section-title fade-up d2';
+        title.textContent = 'All assessment items';
+        root.appendChild(title);
+
+        let any = false;
+        state.subjects.forEach((subject) => {
+          const items = state.assignments.filter((assignment) => assignment.subjectId === subject.id);
+          if (!items.length) return;
+          any = true;
+
+          const card = document.createElement('div');
+          card.className = 'card fade-up';
+
+          const cardTitle = document.createElement('div');
+          cardTitle.className = 'card-title';
+          cardTitle.innerHTML = `
+            <span style="width:10px;height:10px;border-radius:50%;background:${subject.color};display:inline-block;box-shadow:0 0 8px ${subject.color}77"></span>
+            ${esc(subject.name)}
+            <span class="badge-count">${items.length} item${items.length !== 1 ? 's' : ''}</span>
+          `;
+          card.appendChild(cardTitle);
+
+          const header = document.createElement('div');
+          header.className = 'assign-header';
+          header.innerHTML = '<span>Name</span><span>Type · Term</span><span>Weight</span><span>Mark</span><span>Out of</span><span></span>';
+          card.appendChild(header);
+
+          items.forEach((assignment) => {
+            const percent = assignment.mark !== '' && assignment.mark !== null && assignment.outOf
+              ? (Number(assignment.mark) / Number(assignment.outOf)) * 100
+              : null;
+            const grade = getGradeInfo(percent);
+
+            const row = document.createElement('div');
+            row.className = 'assign-row';
+            row.innerHTML = `
+              <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500" title="${esc(assignment.name)}">${esc(assignment.name)}</span>
+              <span style="font-size:11px;color:var(--text3)">${TYPES[assignment.type] || assignment.type} · T${assignment.term}</span>
+              <span style="color:var(--text2)">${assignment.weight}%</span>
+              <span style="color:${grade.c};font-weight:500">${assignment.mark !== '' && assignment.mark !== null ? assignment.mark : '—'}</span>
+              <span style="color:var(--text2)">${assignment.outOf}</span>
+            `;
+
+            const removeButton = document.createElement('button');
+            removeButton.type = 'button';
+            removeButton.className = 'btn btn-sm btn-danger';
+            removeButton.textContent = '×';
+            removeButton.addEventListener('click', () => removeAssignment(assignment.id));
+
+            row.appendChild(removeButton);
+            card.appendChild(row);
+          });
+
+          root.appendChild(card);
+        });
+
+        if (!any) {
+          root.innerHTML += '<div class="empty" style="padding:20px"><div class="empty-icon">✏️</div>No items yet. Add your first assessment above!</div>';
+        }
+      }
+
+      function render() {
+        saveState();
+
+        const date = new Date();
+        const headerDate = document.getElementById('hdate');
+        if (headerDate) {
+          headerDate.innerHTML = `
+            <div>${date.toLocaleDateString('en-ZA', { weekday: 'long' })}</div>
+            <div>${date.toLocaleDateString('en-ZA', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
+          `;
+        }
+
+        ['overview', 'subjects', 'grades', 'add_work'].forEach((view) => {
+          const button = document.getElementById('nb-' + view);
+          if (button) button.classList.toggle('active', state.view === view);
+        });
+
+        const root = document.getElementById('root');
+        if (!root) return;
+        root.innerHTML = '';
+
+        if (state.view === 'overview') renderOverview(root);
+        else if (state.view === 'subjects') renderSubjects(root);
+        else if (state.view === 'grades') renderGrades(root);
+        else if (state.view === 'add_work') renderAddWork(root);
+      }
+
+      function bindNav() {
+        document.getElementById('nb-overview')?.addEventListener('click', () => setView('overview'));
+        document.getElementById('nb-subjects')?.addEventListener('click', () => setView('subjects'));
+        document.getElementById('nb-grades')?.addEventListener('click', () => setView('grades'));
+        document.getElementById('nb-add_work')?.addEventListener('click', () => setView('add_work'));
+      }
+
+      window.addEventListener('DOMContentLoaded', () => {
+        bindNav();
+        render();
+      });
+    })();
+  </script>
 </body>
 </html>
